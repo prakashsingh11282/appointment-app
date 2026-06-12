@@ -2,7 +2,21 @@
 
 A full-stack web application for labour registration with JWT authentication and real-time profile management.
 
-## Quick Start
+## 🚀 Deploy Live in 5 Minutes
+
+**No local database setup needed!**
+
+- **Railway**: [RAILWAY_RENDER_SETUP.md](RAILWAY_RENDER_SETUP.md) (Recommended)
+- **Render**: [RAILWAY_RENDER_SETUP.md](RAILWAY_RENDER_SETUP.md)
+
+Both platforms auto-provision PostgreSQL and deploy your app to the internet.
+
+## 💻 Local Development
+
+### Prerequisites
+- Java 17+
+- Maven 3.9+
+- Node.js 18+
 
 ### Backend
 
@@ -23,7 +37,7 @@ npm run dev
 
 Frontend runs on `http://localhost:3000`
 
-## Features
+## ✨ Features
 
 - User signup and signin with JWT authentication
 - Labour profile creation (name, email, phone, skills)
@@ -33,4 +47,7 @@ Frontend runs on `http://localhost:3000`
 - PostgreSQL database integration
 - Production-ready deployment
 
-## See [DEPLOYMENT.md](DEPLOYMENT.md) for live deployment instructions
+## 📚 Documentation
+
+- [Railway/Render Setup](RAILWAY_RENDER_SETUP.md) - Deploy live
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Advanced deployment options
