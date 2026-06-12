@@ -1,11 +1,15 @@
 package com.example.labour.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
@@ -24,18 +28,20 @@ public class JwtUtil {
         .claim("name", name)
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-        .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS512)
+        .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS512)
         .compact();
+  }
+
+  private JwtParser getParser() {
+    return Jwts.parserBuilder()
+        .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)))
+        .build();
   }
 
   public String extractEmail(String token) {
     try {
-      return Jwts.parserBuilder()
-          .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-          .build()
-          .parseClaimsJws(token)
-          .getBody()
-          .getSubject();
+      Jws<Claims> claimsJws = getParser().parseClaimsJws(token);
+      return claimsJws.getBody().getSubject();
     } catch (Exception e) {
       return null;
     }
@@ -43,12 +49,9 @@ public class JwtUtil {
 
   public Long extractUserId(String token) {
     try {
-      return Jwts.parserBuilder()
-          .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-          .build()
-          .parseClaimsJws(token)
-          .getBody()
-          .get("userId", Long.class);
+      Jws<Claims> claimsJws = getParser().parseClaimsJws(token);
+      Number userId = claimsJws.getBody().get("userId", Number.class);
+      return userId != null ? userId.longValue() : null;
     } catch (Exception e) {
       return null;
     }
@@ -56,10 +59,7 @@ public class JwtUtil {
 
   public boolean validateToken(String token) {
     try {
-      Jwts.parserBuilder()
-          .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-          .build()
-          .parseClaimsJws(token);
+      getParser().parseClaimsJws(token);
       return true;
     } catch (Exception e) {
       return false;

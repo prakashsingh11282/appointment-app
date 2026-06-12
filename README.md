@@ -14,6 +14,7 @@ Both platforms auto-provision PostgreSQL and deploy your app to the internet.
 ## 💻 Local Development
 
 ### Prerequisites
+
 - Java 17+
 - Maven 3.9+
 - Node.js 18+
