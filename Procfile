@@ -1,0 +1,1 @@
+web: java -jar backend/target/labour-backend-*.jar --server.port=${PORT} --spring.datasource.url=${DATABASE_URL} --spring.datasource.username=${DB_USERNAME} --spring.datasource.password=${DB_PASSWORD} --jwt.secret=${JWT_SECRET}
